@@ -189,9 +189,3 @@ Quarter-by-quarter deep dive.
 | `python-dotenv` | Environment variable loading |
 
 ---
-
-## Environment Variables
-
-```
-ANTHROPIC_API_KEY=sk-ant-...   # Required
-```
