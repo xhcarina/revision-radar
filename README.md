@@ -69,7 +69,7 @@ revision_radar/
 
 - **8-K / Earnings releases**: Fetched from SEC EDGAR — ticker → CIK → submission metadata → filing index → largest text exhibit. Item 2.02 only (earnings results). Two-layer cache (raw HTML + cleaned text).
 - **10-Q MD&A**: Extracted from quarterly 10-Q filings using heuristic section splitting on standard headers.
-- **MD&A Diff**: Consecutive quarters are compared sentence-by-sentence using Jaccard token similarity (threshold 0.5). Sentences are classified as *new*, *retained*, or *removed*. Only the delta is passed to Claude — not the unchanged text. The disappearance of previously confident language is treated as a signal in its own right.
+- **MD&A Diff**: Consecutive quarters are compared sentence-by-sentence using Jaccard token similarity (threshold 0.5, implemented natively — no ML library required). Sentences are classified as *new*, *retained*, or *removed*. Only the delta is passed to Claude — not the unchanged text. The disappearance of previously confident language is treated as a signal in its own right.
 
 ### 2. Signal Extraction (Claude)
 
@@ -171,11 +171,10 @@ Quarter-by-quarter deep dive.
 | `streamlit` | Dashboard UI |
 | `anthropic` | Claude API (extraction, peer discovery, narrative) |
 | `yfinance` | Analyst estimates, earnings history, price data, short interest |
-| `edgartools`, `requests`, `beautifulsoup4` | SEC EDGAR filing access and HTML parsing |
+| `requests`, `beautifulsoup4` | SEC EDGAR filing access and HTML parsing |
 | `gdeltdoc` | GDELT news headlines |
 | `pydantic` | Signal schema validation |
 | `plotly` | Interactive charts |
-| `scikit-learn`, `nltk` | MD&A sentence tokenization and Jaccard similarity |
 | `pandas`, `numpy` | Data manipulation |
 | `tenacity` | Claude API retry logic |
 | `python-dotenv` | Environment variable loading |
