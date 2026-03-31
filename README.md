@@ -8,13 +8,22 @@ Check detects leading indicators of sell-side earnings-estimate revisions *befor
 ## Quick Start
 
 ```bash
-# 1. Activate the virtual environment
-source bwater/bin/activate
+# 1. Clone the repo
+git clone https://github.com/xhcarina/revision-radar.git
+cd revision-radar
 
-# 2. Add your Anthropic API key
+# 2. Create and activate a virtual environment
+python -m venv venv
+source venv/bin/activate        # macOS / Linux
+# venv\Scripts\activate         # Windows
+
+# 3. Install dependencies
+pip install -r requirements.txt
+
+# 4. Add your Anthropic API key
 echo "ANTHROPIC_API_KEY=sk-ant-..." >> .env
 
-# 3. Run
+# 5. Run
 streamlit run app.py
 ```
 
