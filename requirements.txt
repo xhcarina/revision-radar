@@ -1,27 +1,11 @@
-# Core UI
-# Do NOT pin streamlit — Streamlit Cloud uses its own CLI version
-
-# Claude API
-anthropic>=0.30.0
-
-# SEC EDGAR
-requests>=2.31.0
-beautifulsoup4>=4.12.0
-
-# Financial Data
-yfinance>=0.2.40
-
-# News
-gdeltdoc>=1.4.0
-
-# Data
-pandas>=2.0.0
-numpy>=1.26.0
-pydantic>=2.7.0
-
-# Visualization
-plotly>=5.22.0
-
-# Utilities
-python-dotenv>=1.0.0
-tenacity>=8.3.0
+anthropic
+requests
+beautifulsoup4
+yfinance
+gdeltdoc
+pandas
+numpy
+pydantic
+plotly
+python-dotenv
+tenacity
