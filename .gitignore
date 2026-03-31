@@ -20,6 +20,9 @@ __pycache__/
 data/peer_cache/
 saved_reports/
 
+# Temp
+app_real.py
+
 # macOS
 .DS_Store
 

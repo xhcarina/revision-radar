@@ -1,5 +1,5 @@
 # Core UI
-streamlit==1.43.0
+# Do NOT pin streamlit — Streamlit Cloud uses its own CLI version
 
 # Claude API
 anthropic>=0.30.0
