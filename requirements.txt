@@ -1,6 +1,5 @@
 # Core UI
-streamlit>=1.35.0
-streamlit-extras>=0.4.0
+streamlit==1.43.0
 streamlit-searchbox>=0.1.24
 
 # Claude API
