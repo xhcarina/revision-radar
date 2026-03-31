@@ -68,7 +68,12 @@ EDGAR_HEADERS = {
 }
 
 # ── Cache ─────────────────────────────────────────────────────────────────────
-CACHE_DIR = Path(".cache")
+try:
+    CACHE_DIR = Path(".cache")
+    CACHE_DIR.mkdir(parents=True, exist_ok=True)
+except OSError:
+    CACHE_DIR = Path("/tmp/revision_radar/.cache")
+    CACHE_DIR.mkdir(parents=True, exist_ok=True)
 CACHE_TTL_HOURS = 48
 
 # ── Plotly / Color Theme ──────────────────────────────────────────────────────

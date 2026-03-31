@@ -24,8 +24,12 @@ import sys
 sys.path.insert(0, str(Path(__file__).parent.parent.parent))
 from config import CACHE_DIR, CACHE_TTL_HOURS
 
-REPORTS_DIR = Path("saved_reports")
-REPORTS_DIR.mkdir(parents=True, exist_ok=True)
+try:
+    REPORTS_DIR = Path("saved_reports")
+    REPORTS_DIR.mkdir(parents=True, exist_ok=True)
+except OSError:
+    REPORTS_DIR = Path("/tmp/revision_radar/saved_reports")
+    REPORTS_DIR.mkdir(parents=True, exist_ok=True)
 
 
 # ── Auto-purge ────────────────────────────────────────────────────────────────

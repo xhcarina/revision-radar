@@ -190,7 +190,11 @@ def get_short_interest(ticker: str) -> dict:
 
 _PEER_UNIVERSE_PATH = Path(__file__).parent.parent.parent / "data" / "peer_universe.json"
 _PEER_CACHE_DIR = Path(__file__).parent.parent.parent / "data" / "peer_cache"
-_PEER_CACHE_DIR.mkdir(parents=True, exist_ok=True)
+try:
+    _PEER_CACHE_DIR.mkdir(parents=True, exist_ok=True)
+except OSError:
+    _PEER_CACHE_DIR = Path("/tmp/revision_radar/peer_cache")
+    _PEER_CACHE_DIR.mkdir(parents=True, exist_ok=True)
 _PEER_CACHE_TTL = timedelta(days=7)
 
 _SECTOR_FALLBACK_WARNING = (
