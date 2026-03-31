@@ -8,7 +8,6 @@ anthropic>=0.30.0
 
 # SEC EDGAR
 edgartools>=2.20.0
-sec-edgar-downloader>=5.0.0
 requests>=2.31.0
 beautifulsoup4>=4.12.0
 
@@ -18,9 +17,8 @@ yfinance>=0.2.40
 # News
 gdeltdoc>=1.4.0
 
-# NLP & ML (transformers/torch optional — not required; Claude API handles all LLM work)
+# NLP & ML
 scikit-learn>=1.5.0
-nltk>=3.8.0
 
 # Data
 pandas>=2.0.0
