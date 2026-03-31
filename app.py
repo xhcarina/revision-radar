@@ -25,12 +25,6 @@ from config import (
     DEFAULT_QUARTERS,
 )
 
-# ── Cache housekeeping (runs once per process startup) ────────────────────────
-from src.data.cache_manager import purge_stale_cache, save_report, load_report, list_reports, delete_report
-if "cache_purged" not in st.session_state:
-    _purged = purge_stale_cache()
-    st.session_state.cache_purged = True
-
 # ── Page config ───────────────────────────────────────────────────────────────
 st.set_page_config(
     page_title="Check",
@@ -38,6 +32,12 @@ st.set_page_config(
     layout="wide",
     initial_sidebar_state="expanded",
 )
+
+# ── Cache housekeeping (runs once per process startup) ────────────────────────
+from src.data.cache_manager import purge_stale_cache, save_report, load_report, list_reports, delete_report
+if "cache_purged" not in st.session_state:
+    _purged = purge_stale_cache()
+    st.session_state.cache_purged = True
 
 # ── CSS — theme-adaptive via CSS variables (works in both light & dark mode) ──
 st.markdown(f"""
