@@ -1,18 +1,7 @@
----
-title: Check
-emoji: 📋
-colorFrom: blue
-colorTo: indigo
-sdk: streamlit
-sdk_version: "1.43.0"
-app_file: app.py
-pinned: false
----
-
 # Check
 **AI-Powered Analyst Forecast Revision Intelligence**
 
-[![Open in HF Spaces](https://huggingface.co/datasets/huggingface/badges/resolve/main/open-in-hf-spaces-sm.svg)](https://huggingface.co/spaces/xhcarina/revision-radar)
+### [🚀 Live Demo → huggingface.co/spaces/xhcarina/revision-radar](https://huggingface.co/spaces/xhcarina/revision-radar)
 
 Check detects leading indicators of sell-side earnings-estimate revisions *before* they are published — by extracting structured signals from SEC filings, earnings call transcripts, and global news using Claude AI. Zero stock-price data is used at any stage of analysis. The only inputs are unstructured text and qualitative language patterns.
 
