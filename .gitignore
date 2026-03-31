@@ -1,0 +1,28 @@
+# Environment & secrets
+.env
+*.env
+
+# Virtual environment
+bwater/
+venv/
+.venv/
+env/
+
+# Python cache
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+.Python
+
+# Cached data (regenerated at runtime)
+data/peer_cache/
+saved_reports/
+
+# macOS
+.DS_Store
+
+# IDE
+.vscode/
+.idea/
+*.swp

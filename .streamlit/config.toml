@@ -1,0 +1,11 @@
+[theme]
+# Only pin the brand accent — everything else follows the OS/browser preference.
+primaryColor           = "#00d4aa"
+font                   = "sans serif"
+
+[server]
+headless               = false
+enableXsrfProtection   = true
+
+[browser]
+gatherUsageStats       = false

@@ -1,0 +1,37 @@
+# Core UI
+streamlit>=1.35.0
+streamlit-extras>=0.4.0
+streamlit-searchbox>=0.1.24
+
+# Claude API
+anthropic>=0.30.0
+
+# SEC EDGAR
+edgartools>=2.20.0
+sec-edgar-downloader>=5.0.0
+requests>=2.31.0
+beautifulsoup4>=4.12.0
+
+# Financial Data
+yfinance>=0.2.40
+
+# News
+gdeltdoc>=1.4.0
+
+# NLP & ML (transformers/torch optional — not required; Claude API handles all LLM work)
+scikit-learn>=1.5.0
+nltk>=3.8.0
+
+# Data
+pandas>=2.0.0
+numpy>=1.26.0
+pydantic>=2.7.0
+
+# Visualization
+plotly>=5.22.0
+
+# Utilities
+python-dotenv>=1.0.0
+joblib>=1.4.0
+tqdm>=4.66.0
+tenacity>=8.3.0
