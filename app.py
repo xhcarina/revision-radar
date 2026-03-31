@@ -11,6 +11,7 @@ import json
 from datetime import datetime
 from pathlib import Path
 
+import pandas as pd
 import streamlit as st
 
 import sys
@@ -286,31 +287,39 @@ def render_sidebar() -> dict:
         # ── Ticker ──
         st.markdown("<div class='rr-section-header'>Company</div>", unsafe_allow_html=True)
 
-        # Build label list: "AAPL — Apple Inc."
-        _ticker_labels = [f"{t} — {TICKER_COMPANY_MAP[t]}" for t in sorted(TICKER_COMPANY_MAP)]
-        _ticker_labels = [""] + _ticker_labels  # blank default
+        from streamlit_searchbox import st_searchbox
 
-        _selected_label = st.selectbox(
-            "Ticker",
-            options=_ticker_labels,
-            index=0,
-            label_visibility="collapsed",
+        # Build a flat lookup: "AAPL — Apple Inc." → "AAPL"
+        _ticker_lookup: dict[str, str] = {
+            f"{t} — {TICKER_COMPANY_MAP[t]}": t
+            for t in sorted(TICKER_COMPANY_MAP)
+        }
+        _all_labels = list(_ticker_lookup.keys())
+
+        def _search_tickers(query: str) -> list[str]:
+            q = query.strip().upper()
+            if not q:
+                return _all_labels[:20]
+            matches = [label for label in _all_labels if q in label.upper()][:20]
+            if q and q not in [m.split(" — ")[0] for m in matches]:
+                matches = [q] + matches
+            return matches
+
+        _result = st_searchbox(
+            _search_tickers,
+            placeholder="Search ticker or company name…",
+            key="ticker_searchbox",
         )
 
-        if _selected_label and " — " in _selected_label:
-            ticker_input = _selected_label.split(" — ")[0].strip()
-        elif _selected_label:
-            ticker_input = _selected_label.upper().strip()
+        if _result and " — " in str(_result):
+            ticker_input = _result.split(" — ")[0].strip()
+        elif _result:
+            ticker_input = str(_result).upper().strip()
         else:
             ticker_input = ""
 
-        # Allow typing an unlisted ticker directly
-        _manual = st.text_input("Or type a ticker", placeholder="e.g. PLTR", label_visibility="visible")
-        if _manual.strip():
-            ticker_input = _manual.strip().upper()
-
         if not ticker_input:
-            st.caption("Select or type a ticker above to enable analysis.")
+            st.caption("Select a ticker above to enable analysis.")
 
         # ── Lookback ──
         st.markdown("<div class='rr-section-header' style='margin-top:16px;'>Lookback Window</div>",
