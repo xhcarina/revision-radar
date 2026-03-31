@@ -71,6 +71,9 @@ EDGAR_HEADERS = {
 try:
     CACHE_DIR = Path(".cache")
     CACHE_DIR.mkdir(parents=True, exist_ok=True)
+    _test = CACHE_DIR / ".write_test"
+    _test.touch()
+    _test.unlink()
 except OSError:
     CACHE_DIR = Path("/tmp/revision_radar/.cache")
     CACHE_DIR.mkdir(parents=True, exist_ok=True)
