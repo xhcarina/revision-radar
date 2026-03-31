@@ -1,6 +1,5 @@
 # Core UI
 streamlit==1.43.0
-streamlit-searchbox>=0.1.24
 
 # Claude API
 anthropic>=0.30.0

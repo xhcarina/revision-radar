@@ -11,7 +11,6 @@ import json
 from datetime import datetime
 from pathlib import Path
 
-import pandas as pd
 import streamlit as st
 
 import sys
@@ -33,11 +32,8 @@ st.set_page_config(
     initial_sidebar_state="expanded",
 )
 
-# ── Cache housekeeping (runs once per process startup) ────────────────────────
+# ── Cache housekeeping (deferred to main() — session_state must run inside a function) ──
 from src.data.cache_manager import purge_stale_cache, save_report, load_report, list_reports, delete_report
-if "cache_purged" not in st.session_state:
-    _purged = purge_stale_cache()
-    st.session_state.cache_purged = True
 
 # ── CSS — theme-adaptive via CSS variables (works in both light & dark mode) ──
 st.markdown(f"""
@@ -290,40 +286,31 @@ def render_sidebar() -> dict:
         # ── Ticker ──
         st.markdown("<div class='rr-section-header'>Company</div>", unsafe_allow_html=True)
 
-        from streamlit_searchbox import st_searchbox
+        # Build label list: "AAPL — Apple Inc."
+        _ticker_labels = [f"{t} — {TICKER_COMPANY_MAP[t]}" for t in sorted(TICKER_COMPANY_MAP)]
+        _ticker_labels = [""] + _ticker_labels  # blank default
 
-        # Build a flat lookup: "AAPL — Apple Inc." → "AAPL"
-        _ticker_lookup: dict[str, str] = {
-            f"{t} — {TICKER_COMPANY_MAP[t]}": t
-            for t in sorted(TICKER_COMPANY_MAP)
-        }
-        _all_labels = list(_ticker_lookup.keys())
-
-        def _search_tickers(query: str) -> list[str]:
-            q = query.strip().upper()
-            if not q:
-                return _all_labels[:20]
-            matches = [label for label in _all_labels if q in label.upper()][:20]
-            # Always offer the raw query as the first option for unlisted tickers
-            if q and q not in [m.split(" — ")[0] for m in matches]:
-                matches = [q] + matches
-            return matches
-
-        _result = st_searchbox(
-            _search_tickers,
-            placeholder="Search ticker or company name…",
-            key="ticker_searchbox",
+        _selected_label = st.selectbox(
+            "Ticker",
+            options=_ticker_labels,
+            index=0,
+            label_visibility="collapsed",
         )
 
-        if _result and " — " in str(_result):
-            ticker_input = _result.split(" — ")[0].strip()
-        elif _result:
-            ticker_input = str(_result).upper().strip()
+        if _selected_label and " — " in _selected_label:
+            ticker_input = _selected_label.split(" — ")[0].strip()
+        elif _selected_label:
+            ticker_input = _selected_label.upper().strip()
         else:
             ticker_input = ""
 
+        # Allow typing an unlisted ticker directly
+        _manual = st.text_input("Or type a ticker", placeholder="e.g. PLTR", label_visibility="visible")
+        if _manual.strip():
+            ticker_input = _manual.strip().upper()
+
         if not ticker_input:
-            st.caption("Select a ticker above to enable analysis.")
+            st.caption("Select or type a ticker above to enable analysis.")
 
         # ── Lookback ──
         st.markdown("<div class='rr-section-header' style='margin-top:16px;'>Lookback Window</div>",
@@ -487,6 +474,7 @@ def render_sidebar() -> dict:
 
 # ── Analysis pipeline ─────────────────────────────────────────────────────────
 def run_analysis(params: dict) -> dict:
+    import pandas as pd  # lazy — only loaded when analysis actually runs
     from src.data.sec_client       import fetch_eight_k, fetch_ten_q, fetch_ten_k, get_company_name, diff_mda
     from src.data.news_client      import (get_company_news, get_news_sentiment_timeline,
                                             prepare_articles)
@@ -3057,6 +3045,10 @@ def render_landing():
 
 # ── Main ──────────────────────────────────────────────────────────────────────
 def main():
+    if "cache_purged" not in st.session_state:
+        purge_stale_cache()
+        st.session_state.cache_purged = True
+
     render_header()
     params = render_sidebar()
 
